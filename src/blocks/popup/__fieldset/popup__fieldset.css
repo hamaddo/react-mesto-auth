@@ -1,0 +1,6 @@
+.popup__fieldset{
+    display: grid;
+    margin: 0;
+    padding: 0;
+    border: none;
+}

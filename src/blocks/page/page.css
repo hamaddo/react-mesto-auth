@@ -1,0 +1,10 @@
+.page{
+    display: grid;
+    justify-items: center;
+    font-family: 'Inter',Arial, sans-serif;
+    background-color: black;
+    font-weight: normal;
+    color: white;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}

@@ -1,0 +1,13 @@
+.popup__error{
+    max-width: 358px;
+    color: red;
+    font-size: 12px;
+    line-height: 15px;
+    justify-self: start;
+    align-self: start;
+    margin-bottom: 15px;
+}
+
+.popup__error:last-child{
+    margin-bottom: 0;
+}

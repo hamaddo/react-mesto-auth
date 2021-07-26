@@ -1,0 +1,30 @@
+.profile__button {
+    border: none;
+    align-self: center;
+    height: 50px;
+
+}
+
+@media screen and (min-width: 320px) {
+    .profile__button {
+        justify-self: center;
+        width: 282px;
+        background: url("../../../images/profile__button_add_mobile.svg") no-repeat;
+        margin: 36px 0 0;
+    }
+}
+
+@media screen and (min-width: 1280px) {
+    .profile__button {
+        grid-row: 1;
+        grid-column: 3;
+        margin-left: 244px;
+        justify-self: end;
+        width: 150px;
+        background: url("../../../images/profile__button_add.svg") no-repeat;
+    }
+}
+
+.profile__button:hover {
+    opacity: .6;
+}

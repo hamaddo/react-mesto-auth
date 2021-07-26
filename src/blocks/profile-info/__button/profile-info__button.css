@@ -1,0 +1,28 @@
+.profile-info__button {
+    width: 24px;
+    height: 24px;
+    grid-row: 1;
+    grid-column: 2;
+    background: url("../../../images/profile-info__button_edit.svg") no-repeat;
+    border: none;
+    justify-self: end;
+    align-self: end;
+}
+
+@media screen and (min-width: 320px) {
+    .profile-info__button {
+        transform: scale(0.75, 0.75);
+        margin: 0 0 14px 10px;
+    }
+}
+
+@media screen and (min-width: 1280px) {
+    .profile-info__button {
+        transform: scale(1, 1);
+        margin: 0 0 16px 18px;
+    }
+}
+
+.profile-info__button:hover {
+    opacity: .6;
+}

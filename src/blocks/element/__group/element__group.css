@@ -1,0 +1,6 @@
+.element__group{
+    max-width: 282px;
+    display: grid;
+    grid-row: 2;
+    grid-template-columns: 2fr min-content;
+}

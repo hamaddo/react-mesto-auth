@@ -1,0 +1,8 @@
+.element {
+    position: relative;
+    display: grid;
+    grid-template-rows: repeat(2,min-content);
+    max-width: 282px;
+    background: #FFFFFF;
+    border-radius: 10px;
+}

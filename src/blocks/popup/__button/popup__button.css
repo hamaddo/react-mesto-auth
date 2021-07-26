@@ -1,0 +1,27 @@
+.popup__button {
+    justify-self: start;
+    background: url("../../../images/close-icon.svg") no-repeat;
+    width: 40px;
+    height: 40px;
+    z-index: 1;
+}
+
+@media screen and (min-width: 320px) {
+    .popup__button {
+        grid-column: 1;
+        grid-row: 1;
+        justify-self: end;
+        transform: scale(0.65, 0.65);
+    }
+}
+
+@media screen and (min-width: 1280px) {
+    .popup__button {
+        grid-column: 2;
+        transform: scale(1, 1);
+    }
+}
+
+.popup__button:hover {
+    opacity: .6;
+}

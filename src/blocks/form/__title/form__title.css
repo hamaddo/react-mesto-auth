@@ -1,0 +1,21 @@
+.form__title{
+    grid-row: 1;
+    font-weight: 900;
+    justify-self: start;
+    margin:34px 0 54px;
+    color: black;
+}
+
+@media screen and (min-width: 320px) {
+    .form__title{
+        font-size: 18px;
+        line-height: 22px;
+    }
+}
+
+@media screen and (min-width: 1280px) {
+    .form__title{
+        font-size: 24px;
+        line-height: 29px;
+    }
+}

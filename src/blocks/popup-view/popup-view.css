@@ -1,0 +1,16 @@
+.popup-view {
+    z-index: 3;
+    display: grid;
+    grid-row: 2;
+    grid-column: 1;
+    list-style-type: none;
+    padding-left: 0;
+    justify-content: start;
+    justify-items: start;
+    grid-template-rows: repeat(2, max-content);
+    background-color: rgba(0, 0, 0, 0);
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
+    font-size: 18px;
+    line-height: 22px;
+}
+

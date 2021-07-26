@@ -1,0 +1,21 @@
+.profile__avatar {
+    width: 120px;
+    height: 120px;
+    box-sizing: border-box;
+    border-radius: 120px;
+    grid-column: 1;
+}
+
+@media screen and (min-width: 320px) {
+    .profile__avatar {
+        justify-self: center;
+        margin: 0 0 22px;
+    }
+}
+
+@media screen and (min-width: 1280px) {
+    .profile__avatar {
+        justify-self: start;
+        margin: 0 48px 22px 0;
+    }
+}
