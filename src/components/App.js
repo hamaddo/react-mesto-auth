@@ -6,22 +6,39 @@ import PopupAddCard from "./PopupAddCard";
 import PopupEditAvatar from "./PopupEditAvatar";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
+import React, {useState} from "react";
 
 function App() {
 
-    const handleEditAvatarClick = () => {
-        document.querySelector('.popup_type_edit-avatar').classList.add('popup_opened');
+    const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+    const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+    const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+    const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
+    const [selectedCard, setSelectedCard] = useState({})
 
-    }
+    const handleEditAvatarClick = () => {
+        setIsEditAvatarPopupOpen(true)
+    };
 
     const handleEditProfileClick = () => {
-        document.querySelector('.popup_type_edit').classList.add('popup_opened');
+        setIsEditProfilePopupOpen(true)
     };
 
     const handleAddPlaceClick = () => {
-        document.querySelector('.popup_type_add').classList.add('popup_opened');
-
+        setIsAddPlacePopupOpen(true)
     };
+
+    const handleCardClick = (card) => {
+        setIsImagePopupOpen(true);
+        setSelectedCard(card);
+    }
+
+    const closeAllPopups = () => {
+        setIsAddPlacePopupOpen(false);
+        setIsEditAvatarPopupOpen(false);
+        setIsEditProfilePopupOpen(false);
+        setIsImagePopupOpen(false);
+    }
 
 
     return (
@@ -31,26 +48,15 @@ function App() {
                 <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick}
                       onEditAvatar={handleEditAvatarClick}/>
                 <Footer/>
-                <PopupEdit/>
-                <PopupAddCard/>
-                <PopupEditAvatar/>
-                <PopupWithForm name='delete' title='Вы уверены?' buttonText='Удалить'/>
+                <PopupEdit isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}/>
+                <PopupAddCard isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}/>
+                <PopupEditAvatar isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}/>
+                <PopupWithForm name='delete' title='Вы уверены?' buttonText='Удалить' onClose={closeAllPopups}/>
                 <ImagePopup/>
 
 
                 <template id="element-template">
-                    <li className="element">
-                        <img alt="Место" className="element__image"
-                             src="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg"/>
-                        <button aria-label="Удалить" type="button" className="element__trash button "/>
-                        <div className="element__group">
-                            <h2 className="element__title"></h2>
-                            <div className="element__like-container">
-                                <button aria-label="Лайк" type="button" className="element__like button"/>
-                                <p className="element__like-count">0</p>
-                            </div>
-                        </div>
-                    </li>
+
                 </template>
             </div>
         </>
