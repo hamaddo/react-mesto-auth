@@ -8,7 +8,8 @@ export default function Main(props) {
     const [userName, setUserName] = useState();
     const [userDescription, setUserDescription] = useState();
     const [userAvatar, setUserAvatar] = useState('');
-    const [cards, setCards] = useState([])
+    const [cards, setCards] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         Promise.all([api.getInitialCards(), api.getUserInfo()])
@@ -17,15 +18,15 @@ export default function Main(props) {
                 setUserDescription(userData.about);
                 setUserAvatar(userData.avatar);
                 setCards(cardData);
+                setLoading(false);
             })
-            .then(() => document.querySelector('.profile__avatar').src = `${userAvatar}`)
             .catch((err) => alert(err));
     })
 
     return (
         <main className="content">
             <section className="profile">
-                <img className="profile__avatar" src={profileLoader} alt="Жак Фреско"/>
+                <img className="profile__avatar" src={loading ? profileLoader : userAvatar} alt="Жак Фреско"/>
                 <button onClick={props.onEditAvatar} className="profile__avatar-edit-button"/>
                 <div className="profile-info">
                     <h1 id="profile-info__title" className="profile-info__title">{userName}</h1>
