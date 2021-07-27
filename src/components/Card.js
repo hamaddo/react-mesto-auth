@@ -1,10 +1,16 @@
 import React from "react";
 
-export default function Card(props){
-    return(
+
+export default function Card(props) {
+    const handleClick = () => {
+        props.onCardClick(props.card)
+    }
+
+    return (
+
         <li className="element" key={props.id}>
             <img alt="Место" className="element__image"
-                 src={props.link}/>
+                 src={props.link} onClick={handleClick}/>
             <button aria-label="Удалить" type="button" className="element__trash button "/>
             <div className="element__group">
                 <h2 className="element__title">{props.name}</h2>

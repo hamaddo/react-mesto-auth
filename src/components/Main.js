@@ -42,10 +42,12 @@ export default function Main(props) {
                 <ul className="elements__list">
                     {cards.map((card) => (
                         <Card
+                            card={card}
                             key={card._id}
                             link={card.link}
                             name={card.name}
                             likes={card.likes.length}
+                            onCardClick={props.onCardClick}
                         />
                     ))}
                 </ul>

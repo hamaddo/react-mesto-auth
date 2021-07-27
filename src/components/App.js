@@ -29,8 +29,8 @@ function App() {
     };
 
     const handleCardClick = (card) => {
-        setIsImagePopupOpen(true);
         setSelectedCard(card);
+        setIsImagePopupOpen(true);
     }
 
     const closeAllPopups = () => {
@@ -42,24 +42,18 @@ function App() {
 
 
     return (
-        <>
-            <div className="page">
-                <Header/>
-                <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick}
-                      onEditAvatar={handleEditAvatarClick}/>
-                <Footer/>
-                <PopupEdit isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}/>
-                <PopupAddCard isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}/>
-                <PopupEditAvatar isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}/>
-                <PopupWithForm name='delete' title='Вы уверены?' buttonText='Удалить' onClose={closeAllPopups}/>
-                <ImagePopup/>
-
-
-                <template id="element-template">
-
-                </template>
-            </div>
-        </>
+        <div className="page">
+            <Header/>
+            <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick}
+                  onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick}/>
+            <Footer/>
+            <PopupEdit isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}/>
+            <PopupAddCard isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}/>
+            <PopupEditAvatar isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}/>
+            <PopupWithForm name='delete' title='Вы уверены?' buttonText='Удалить' onClose={closeAllPopups}/>
+            <ImagePopup isOpen={isImagePopupOpen} onClose={closeAllPopups} card={selectedCard} link={selectedCard.link}
+                        name={selectedCard.name}/>
+        </div>
     );
 }
 
