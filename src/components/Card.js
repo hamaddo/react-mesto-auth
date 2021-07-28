@@ -7,8 +7,7 @@ export default function Card(props) {
     }
 
     return (
-
-        <li className="element" key={props.id}>
+        <li className="element">
             <img alt="Место" className="element__image"
                  src={props.link} onClick={handleClick}/>
             <button aria-label="Удалить" type="button" className="element__trash button "/>

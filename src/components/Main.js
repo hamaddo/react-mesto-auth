@@ -5,8 +5,8 @@ import Card from "./Card";
 
 export default function Main(props) {
 
-    const [userName, setUserName] = useState();
-    const [userDescription, setUserDescription] = useState();
+    const [userName, setUserName] = useState('');
+    const [userDescription, setUserDescription] = useState('');
     const [userAvatar, setUserAvatar] = useState('');
     const [cards, setCards] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -21,7 +21,7 @@ export default function Main(props) {
                 setLoading(false);
             })
             .catch((err) => alert(err));
-    })
+    }, [])
 
     return (
         <main className="content">
