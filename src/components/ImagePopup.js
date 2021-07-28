@@ -1,5 +1,4 @@
 export default function ImagePopup({isOpen, onClose, link, name}) {
-    console.log({link});
     return (
         <div className={`popup popup_type_view ${isOpen ? 'popup_opened' : ''}`}>
             <div className="popup__container">
