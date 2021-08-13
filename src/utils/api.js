@@ -92,4 +92,4 @@ class Api {
 
 const api = new Api(apiSettings);
 
-export {api};
+export default api;
