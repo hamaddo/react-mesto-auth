@@ -1,14 +1,14 @@
 import Header from './Header'
 import Main from "./Main";
 import Footer from "./Footer";
-import PopupEditProfile from "./PopupEdit";
-import PopupAddCard from "./PopupAddCard";
-import PopupEditAvatar from "./PopupEditAvatar";
+import PopupEditProfile from "./EditProfilePopup";
+import AddPlacePopup from "./AddPlacePopup";
+import EditAvatarPopup from "./EditAvatarPopup";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import React, {useEffect, useState} from "react";
 import CurrentUserContext from '../contexts/CurrentUserContext';
-import {api} from "../utils/Api";
+import {api} from "../utils/api";
 
 function App() {
 
@@ -125,8 +125,8 @@ function App() {
 
                 <PopupEditProfile isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}
                                   onUpdateUser={handleUpdateUser}/>
-                <PopupAddCard isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddCard={handleAddCard}/>
-                <PopupEditAvatar isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}
+                <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddCard={handleAddCard}/>
+                <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}
                                  onUpdateAvatar={handleUpdateAvatar}/>
                 <PopupWithForm name='delete' title='Вы уверены?' buttonText='Удалить' onClose={closeAllPopups}/>
                 <ImagePopup isOpen={isImagePopupOpen} onClose={closeAllPopups} card={selectedCard}

@@ -1,7 +1,7 @@
 import PopupWithForm from "./PopupWithForm";
 import {useRef} from "react";
 
-export default function PopupAddCard({onClose,onAddCard,isOpen}) {
+export default function AddPlacePopup({onClose,onAddCard,isOpen}) {
 
     const name = useRef();
     const link = useRef();

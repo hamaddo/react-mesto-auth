@@ -2,7 +2,7 @@ import PopupWithForm from "./PopupWithForm";
 import {useEffect, useRef} from "react";
 
 
-export default function PopupEditAvatar({onClose, isOpen, onUpdateAvatar}) {
+export default function EditAvatarPopup({onClose, isOpen, onUpdateAvatar}) {
     const inputRef = useRef();
 
     useEffect(() => {
