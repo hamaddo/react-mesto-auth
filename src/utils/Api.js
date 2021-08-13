@@ -9,6 +9,27 @@ class Api {
         this._avaUrl = `${this._userUrl}/avatar`
     }
 
+    setLike = (id) => {
+        return fetch(`${this._baseUrl}/cards/likes/${id}`, {
+            method: 'PUT',
+            headers: this._headers
+        })
+            .then(this._handleResponse)
+    }
+
+    removeLike = (id) => {
+        return fetch(`${this._baseUrl}/cards/likes/${id}`, {
+            method: 'DELETE',
+            headers: this._headers
+        })
+            .then(this._handleResponse)
+    }
+
+
+    changeLikeCardStatus = (id, isLiked) => {
+        return isLiked ? this.removeLike(id) : this.setLike(id);
+    }
+
     _handleResponse(res) {
         if (res.ok) {
             return res.json();
@@ -17,20 +38,13 @@ class Api {
         }
     }
 
-    handleLikeClick({_id}, method) {
-        return fetch(`${this._cardsUrl}/likes/${_id}`, {
-            method: method,
-            headers: this._headers,
-        }).then(this._handleResponse);
-    }
-
     getUserInfo() {
         return fetch(this._userUrl, {
             headers: this._headers,
         }).then(this._handleResponse);
     }
 
-    patchUserInfo({name, about}) {
+    patchUserInfo(name, about) {
         return fetch(this._userUrl, {
             method: 'PATCH',
             headers: this._headers,
@@ -41,7 +55,7 @@ class Api {
         }).then(this._handleResponse);
     }
 
-    patchUserAvatar({avatar}) {
+    patchUserAvatar = (avatar) => {
         return fetch(this._avaUrl, {
             method: 'PATCH',
             headers: this._headers,
@@ -49,7 +63,7 @@ class Api {
         }).then(this._handleResponse);
     }
 
-    addCard({name, link}) {
+    addCard(name, link) {
         return fetch(this._cardsUrl, {
             method: "POST",
             headers: this._headers,
