@@ -8,7 +8,7 @@ import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import React, {useEffect, useState} from "react";
 import CurrentUserContext from '../contexts/CurrentUserContext';
-import {api} from "../utils/api";
+import api from "../utils/api";
 
 function App() {
 
