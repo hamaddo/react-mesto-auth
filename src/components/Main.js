@@ -29,7 +29,6 @@ export default function Main({loading, onAddPlace, cards, onEditProfile, onEditA
                             key={card._id}
                             link={card.link}
                             name={card.name}
-                            likes={card.likes.length}
                             onCardClick={onCardClick}
                             onCardDelete={onCardDelete}
                             onCardLike={onCardLike}

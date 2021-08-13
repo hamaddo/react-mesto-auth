@@ -12,18 +12,15 @@ import {api} from "../utils/Api";
 
 function App() {
 
-
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
     const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
     const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
     const [selectedCard, setSelectedCard] = useState({})
 
-    const [cards, setCards] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const [currentUser, setCurrentUser] = useState('');
-
+    const [cards, setCards] = useState([]);
     useEffect(() => {
         api.getUserInfo()
             .then((userData) => {
@@ -32,6 +29,7 @@ function App() {
             .catch((err) => alert(err));
     }, [])
 
+    const [currentUser, setCurrentUser] = useState('');
     useEffect(() => {
         api.getInitialCards()
             .then((cardData) => {
@@ -59,16 +57,15 @@ function App() {
         setIsImagePopupOpen(true);
     }
 
-    function handleCardLike(card) {
+    const handleCardLike = card => {
         const isLiked = card.likes.some(i => i._id === currentUser._id);
 
-        console.log(isLiked)
-
-        api.changeLikeCardStatus(card._id, !isLiked)
+        api.changeLikeCardStatus(card._id, isLiked)
             .then((newCard) => {
                 setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
             });
     }
+
 
     const handleCardDelete = card => {
         api.deleteCard(card)
@@ -113,14 +110,24 @@ function App() {
         <div className="page">
             <CurrentUserContext.Provider value={currentUser}>
                 <Header/>
-                <Main onEditProfile={handleEditProfileClick} loading={loading} cards={cards}
+
+                <Main onEditProfile={handleEditProfileClick}
+                      loading={loading}
+                      cards={cards}
                       onAddPlace={handleAddPlaceClick}
-                      onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick} onCardLike={handleCardLike}
-                      onCardDelete={handleCardDelete}/>
+                      onEditAvatar={handleEditAvatarClick}
+                      onCardClick={handleCardClick}
+                      onCardLike={handleCardLike}
+                      onCardDelete={handleCardDelete}
+                />
+
                 <Footer/>
-                <PopupEditProfile isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/>
+
+                <PopupEditProfile isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}
+                                  onUpdateUser={handleUpdateUser}/>
                 <PopupAddCard isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddCard={handleAddCard}/>
-                <PopupEditAvatar isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/>
+                <PopupEditAvatar isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}
+                                 onUpdateAvatar={handleUpdateAvatar}/>
                 <PopupWithForm name='delete' title='Вы уверены?' buttonText='Удалить' onClose={closeAllPopups}/>
                 <ImagePopup isOpen={isImagePopupOpen} onClose={closeAllPopups} card={selectedCard}
                             link={selectedCard.link}
