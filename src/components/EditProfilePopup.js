@@ -2,11 +2,10 @@ import PopupWithForm from "./PopupWithForm";
 import React, {useContext, useEffect, useState} from "react";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 
-export default function PopupEditProfile({isOpen, onClose, onUpdateUser}) {
-    const [name, setName] = useState();
-    const [about, setAbout] = useState();
+export default function PopupEditProfile({isOpen, onClose, onUpdateUser, isSaving}) {
+    const [name, setName] = useState('');
+    const [about, setAbout] = useState('');
     const currentUser = useContext(CurrentUserContext);
-
     useEffect(() => {
         setName(currentUser.name);
         setAbout(currentUser.about);
@@ -16,7 +15,6 @@ export default function PopupEditProfile({isOpen, onClose, onUpdateUser}) {
     const handleChangeDescription = e => setAbout(e.target.value);
     const handleSubmit = e => {
         e.preventDefault();
-
         onUpdateUser({
             name,
             about: about,
@@ -24,7 +22,11 @@ export default function PopupEditProfile({isOpen, onClose, onUpdateUser}) {
     }
 
     return (
-        <PopupWithForm name='edit' title='Редактировать профиль' buttonText='Сохранить' isOpen={isOpen} onSubmit={handleSubmit}
+        <PopupWithForm name='edit'
+                       title='Редактировать профиль'
+                       buttonText={isSaving ? 'Сохранение...' : 'Сохранить'}
+                       isOpen={isOpen}
+                       onSubmit={handleSubmit}
                        onClose={onClose}>
             <input type="text" minLength="2" maxLength="40" required
                    id="edit-form__input_field_title"

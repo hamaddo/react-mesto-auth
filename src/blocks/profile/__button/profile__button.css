@@ -18,7 +18,6 @@
     .profile__button {
         grid-row: 1;
         grid-column: 3;
-        margin-left: 244px;
         justify-self: end;
         width: 150px;
         background: url("../../../images/profile__button_add.svg") no-repeat;

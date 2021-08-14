@@ -2,7 +2,7 @@ import React from "react";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 
 
-export default function Card({card, onCardClick, onCardLike, link, onCardDelete, name}) {
+export default function Card({card, onCardClick, onCardLike, onCardDelete}) {
     const currentUser = React.useContext(CurrentUserContext);
 
 
@@ -30,12 +30,12 @@ export default function Card({card, onCardClick, onCardLike, link, onCardDelete,
 
     return (
         <li className="element">
-            <img alt="Место" className="element__image"
-                 src={link} onClick={handleClick}/>
+            <img alt={'Место' + card.name} className="element__image"
+                 src={card.link} onClick={handleClick}/>
             <button aria-label="Удалить" type="button" onClick={handleDeleteClick}
                     className={cardDeleteButtonClassName + ' button'}/>
             <div className="element__group">
-                <h2 className="element__title">{name}</h2>
+                <h2 className="element__title">{card.name}</h2>
                 <div className="element__like-container">
                     <button aria-label="Лайк" type="button" onClick={handleLikeClick}
                             className={cardLikeButtonClassName + ' button'}/>

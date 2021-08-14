@@ -1,10 +1,16 @@
 import PopupWithForm from "./PopupWithForm";
-import {useRef} from "react";
+import {useRef, useEffect} from "react";
 
-export default function AddPlacePopup({onClose,onAddCard,isOpen}) {
+export default function AddPlacePopup({onClose, onAddCard, isOpen, isSaving}) {
 
     const name = useRef();
     const link = useRef();
+
+    useEffect(() => {
+        name.current.value = '';
+        link.current.value = '';
+    }, [isOpen]);
+
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -16,7 +22,10 @@ export default function AddPlacePopup({onClose,onAddCard,isOpen}) {
     }
 
     return (
-        <PopupWithForm name='add' title='Новое место' buttonText='Сохранить' onSubmit={handleSubmit} isOpen={isOpen}
+        <PopupWithForm name='add'
+                       title='Новое место'
+                       buttonText={isSaving ? 'Сохранение...' : 'Сохранить'}
+                       onSubmit={handleSubmit} isOpen={isOpen}
                        onClose={onClose}>
             <input type="text" minLength="2" maxLength="30" required
                    id="add-form__input_field_title"

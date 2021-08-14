@@ -7,16 +7,18 @@
 
 @media screen and (min-width: 320px) {
     .profile {
+        max-height: 294px;
         grid-template-columns: 1fr;
-        grid-template-rows: repeat(3,min-content);
+        grid-template-rows: repeat(2,1fr);
         margin: 42px 0 36px;
     }
 }
 
 @media screen and (min-width: 1280px) {
     .profile {
+        max-height: none;
         margin: 40px 0 51px;
-        grid-template-columns: repeat(3, min-content);
+        grid-template-columns: repeat(2, min-content);
         grid-template-rows: 1fr;
     }
 }

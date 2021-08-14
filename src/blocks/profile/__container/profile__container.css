@@ -1,0 +1,10 @@
+.profile__container{
+    display: grid;
+    grid-template-columns: repeat(2,min-content);
+}
+
+@media screen and (min-width: 320px) {
+    .profile__container {
+        justify-self: center;
+    }
+}

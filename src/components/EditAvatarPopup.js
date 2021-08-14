@@ -2,12 +2,13 @@ import PopupWithForm from "./PopupWithForm";
 import {useEffect, useRef} from "react";
 
 
-export default function EditAvatarPopup({onClose, isOpen, onUpdateAvatar}) {
+export default function EditAvatarPopup({onClose, isOpen, onUpdateAvatar, isSaving}) {
     const inputRef = useRef();
 
     useEffect(() => {
         inputRef.current.value = '';
     }, [isOpen]);
+
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -15,7 +16,10 @@ export default function EditAvatarPopup({onClose, isOpen, onUpdateAvatar}) {
     }
 
     return (
-        <PopupWithForm name='edit-avatar' title='Обновить Аватар' buttonText='Сохранить' onSubmit={handleSubmit} isOpen={isOpen}
+        <PopupWithForm name='edit-avatar'
+                       title='Обновить Аватар'
+                       buttonText={isSaving ? 'Сохранение...' : 'Сохранить'}
+                       onSubmit={handleSubmit} isOpen={isOpen}
                        onClose={onClose}>
             <input type="url" required
                    name="link"

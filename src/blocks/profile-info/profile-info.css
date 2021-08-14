@@ -3,6 +3,7 @@
     grid-template-columns: repeat(2, max-content);
     grid-template-rows: repeat(2, min-content);
     justify-items: start;
+    align-self: center;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;

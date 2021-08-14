@@ -18,25 +18,20 @@ function App() {
     const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
     const [selectedCard, setSelectedCard] = useState({})
 
-    const [loading, setLoading] = useState(true);
-
+    const [currentUser, setCurrentUser] = useState({});
     const [cards, setCards] = useState([]);
-    useEffect(() => {
-        api.getUserInfo()
-            .then((userData) => {
-                setCurrentUser(userData);
-            })
-            .catch((err) => alert(err));
-    }, [])
+    const [loading, setLoading] = useState(true);
+    const [isSaving, setIsSaving] = useState(false);
 
-    const [currentUser, setCurrentUser] = useState('');
     useEffect(() => {
-        api.getInitialCards()
-            .then((cardData) => {
+        Promise.all([api.getInitialCards(), api.getUserInfo()])
+            .then(([cardData, userData]) => {
+                setCurrentUser(userData);
                 setCards(cardData);
-                setLoading(false);
+
             })
-            .catch((err) => alert(err));
+            .catch((err) => alert(err))
+            .finally(() => setLoading(false))
     }, [])
 
 
@@ -63,7 +58,8 @@ function App() {
         api.changeLikeCardStatus(card._id, isLiked)
             .then((newCard) => {
                 setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-            });
+            })
+            .catch(err => console.log(err));
     }
 
 
@@ -76,26 +72,36 @@ function App() {
     }
 
     const handleUpdateUser = ({name, about}) => {
+        setIsSaving(true);
+
         api.patchUserInfo(name, about)
-            .then(newUserInfo => setCurrentUser(newUserInfo))
+            .then(newUserInfo => {
+                setCurrentUser(newUserInfo);
+            })
             .then(closeAllPopups)
             .catch(err => console.log(err))
+            .finally(() => setIsSaving(false))
     }
 
     const handleUpdateAvatar = (avatar) => {
+        setIsSaving(true);
+
         api.patchUserAvatar(avatar)
             .then(avatar => setCurrentUser(user => {
                 return {...user, ...avatar}
             }))
             .then(closeAllPopups)
             .catch(err => console.log(err))
+            .finally(() => setIsSaving(false))
     }
 
     const handleAddCard = ({name, link}) => {
+        setIsSaving(true);
         api.addCard(name, link)
             .then(newCard => setCards([newCard, ...cards]))
             .then(closeAllPopups)
             .catch(err => console.log(err))
+            .finally(() => setIsSaving(false))
     }
 
     const closeAllPopups = () => {
@@ -123,10 +129,11 @@ function App() {
 
                 <Footer/>
 
-                <PopupEditProfile isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}
+                <PopupEditProfile isOpen={isEditProfilePopupOpen} isSaving={isSaving} onClose={closeAllPopups}
                                   onUpdateUser={handleUpdateUser}/>
-                <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddCard={handleAddCard}/>
-                <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}
+                <AddPlacePopup isOpen={isAddPlacePopupOpen} isSaving={isSaving} onClose={closeAllPopups}
+                               onAddCard={handleAddCard}/>
+                <EditAvatarPopup isOpen={isEditAvatarPopupOpen} isSaving={isSaving} onClose={closeAllPopups}
                                  onUpdateAvatar={handleUpdateAvatar}/>
                 <PopupWithForm name='delete' title='Вы уверены?' buttonText='Удалить' onClose={closeAllPopups}/>
                 <ImagePopup isOpen={isImagePopupOpen} onClose={closeAllPopups} card={selectedCard}
