@@ -32,7 +32,7 @@ export default function Register({onRegistration}) {
                 />
             </form>
             <button className="auth__button" type="submit" onClick={handleSubmit}>Зарегистрироваться</button>
-            <Link className="auth__link" to="/react-mesto-auth/sign-in">Уже зарегистрированы? Войти</Link>
+            <Link className="auth__link" to="/signin">Уже зарегистрированы? Войти</Link>
         </div>
     )
 }
