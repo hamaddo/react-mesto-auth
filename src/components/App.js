@@ -1,3 +1,4 @@
+import CurrentUserContext from '../contexts/CurrentUserContext';
 import Header from './Header'
 import Main from "./Main";
 import Footer from "./Footer";
@@ -12,7 +13,6 @@ import {ProtectedRoute} from './ProtectedRoute';
 import Login from './Login';
 import Register from './Register';
 import InfoTooltip from './InfoTooltip';
-import CurrentUserContext from '../contexts/CurrentUserContext';
 import api from "../utils/api";
 import * as apiAuth from "../utils/apiAuth";
 
@@ -34,7 +34,7 @@ function App() {
 
     const [loading, setLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
-    const [tooltipStatus, setToolTipStatus] = React.useState(false);
+    const [tooltipStatus, setToolTipStatus] = useState(false);
 
     useEffect(() => {
         const jwt = localStorage.getItem('jwt');
@@ -50,11 +50,10 @@ function App() {
     }, [history])
 
     useEffect(() => {
-        Promise.all([api.getInitialCards(), api.getUserInfo()])
-            .then(([cardData, userData]) => {
+        Promise.all([api.getUserInfo(), api.getInitialCards()])
+            .then(([userData, cardData]) => {
                 setCurrentUser(userData);
                 setCards(cardData);
-
             })
             .catch((err) => alert(err))
             .finally(() => setLoading(false))
@@ -183,7 +182,6 @@ function App() {
         history.push('/signin');
     };
 
-
     return (
         <div className="page">
             <CurrentUserContext.Provider value={currentUser}>
@@ -224,31 +222,43 @@ function App() {
                     isOpen={isInfoTooltipOpen}
                     tooltipStatus={tooltipStatus}
                 />
-                <PopupEditProfile isOpen={isEditProfilePopupOpen}
-                                  isSaving={isSaving}
-                                  onClose={closeAllPopups}
-                                  onUpdateUser={handleUpdateUser}/>
 
-                <AddPlacePopup isOpen={isAddPlacePopupOpen}
-                               isSaving={isSaving}
-                               onClose={closeAllPopups}
-                               onAddCard={handleAddCard}/>
+                <AddPlacePopup
+                    isOpen={isAddPlacePopupOpen}
+                    isSaving={isSaving}
+                    onClose={closeAllPopups}
+                    onAddCard={handleAddCard}/>
 
-                <EditAvatarPopup isOpen={isEditAvatarPopupOpen}
-                                 isSaving={isSaving}
-                                 onClose={closeAllPopups}
-                                 onUpdateAvatar={handleUpdateAvatar}/>
+                <EditAvatarPopup
+                    isOpen={isEditAvatarPopupOpen}
+                    isSaving={isSaving}
+                    onClose={closeAllPopups}
+                    onUpdateAvatar={handleUpdateAvatar}/>
 
-                <PopupWithForm name='delete' title='Вы уверены?' buttonText='Удалить' onClose={closeAllPopups}/>
+                <PopupWithForm
+                    name='delete'
+                    title='Вы уверены?'
+                    buttonText='Удалить'
+                    onClose={closeAllPopups}/>
 
-                <ImagePopup isOpen={isImagePopupOpen}
-                            onClose={closeAllPopups}
-                            card={selectedCard}
-                            link={selectedCard.link}
-                            name={selectedCard.name}/>
+                <ImagePopup
+                    isOpen={isImagePopupOpen}
+                    onClose={closeAllPopups}
+                    card={selectedCard}
+                    link={selectedCard.link}
+                    name={selectedCard.name}/>
+
+                {!loading ? <PopupEditProfile
+                    isOpen={isEditProfilePopupOpen}
+                    isSaving={isSaving}
+                    onClose={closeAllPopups}
+                    onUpdateUser={handleUpdateUser}
+                    loading={loading}
+                /> : <></>}
+
             </CurrentUserContext.Provider>
         </div>
-    );
+    )
 }
 
 export default App;

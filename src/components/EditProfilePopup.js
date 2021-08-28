@@ -1,22 +1,24 @@
 import PopupWithForm from "./PopupWithForm";
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useState} from "react";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 
-export default function PopupEditProfile({isOpen, onClose, onUpdateUser, isSaving,initialName,initialAbout}) {
+
+export default function PopupEditProfile({isOpen, onClose, onUpdateUser, isSaving}) {
     const currentUser = useContext(CurrentUserContext);
 
-    const [name, setName] = useState(initialName);
-    const [about, setAbout] = useState(initialAbout);
+    const [name, setName] = useState(currentUser.name);
+    const [about, setAbout] = useState(currentUser.about);
+
+    /*Избавился от старой очистки инпутов, чтобы реализовать полностью управляемые компоненты, без useEffect*/
 
     const onPopupEditProfileClose = () => {
         onClose();
-        setName(currentUser.name);
-        setAbout(currentUser.about);
+        resetInputs();
     }
 
     const resetInputs = () => {
-        setName('');
-        setAbout('')
+        setName(currentUser.name);
+        setAbout(currentUser.about);
     }
 
     const handleChangeName = e => setName(e.target.value);
@@ -24,11 +26,7 @@ export default function PopupEditProfile({isOpen, onClose, onUpdateUser, isSavin
 
     const handleSubmit = e => {
         e.preventDefault();
-        onUpdateUser({
-            name,
-            about: about,
-        });
-        resetInputs();
+        onUpdateUser({name, about});
     }
 
     return (

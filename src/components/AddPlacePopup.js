@@ -1,16 +1,16 @@
 import PopupWithForm from "./PopupWithForm";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 
 export default function AddPlacePopup({onClose, onAddCard, isOpen, isSaving}) {
     const [name, setName] = useState('');
     const [link, setLink] = useState('');
 
-    const resetInputs = () =>{
+    const resetInputs = () => {
         setName('');
         setLink('');
     }
 
-    const onAddPlacePopupClose =()=>{
+    const onAddPlacePopupClose = () => {
         onClose();
         resetInputs();
     }
