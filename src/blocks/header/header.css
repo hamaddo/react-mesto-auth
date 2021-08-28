@@ -1,7 +1,9 @@
 .header {
-    justify-items: start;
-    align-items: start;
-    display: grid;
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+
     border-bottom: 1px solid rgba(84, 84, 84, 0.7);
 }
 

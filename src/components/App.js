@@ -37,6 +37,19 @@ function App() {
     const [tooltipStatus, setToolTipStatus] = React.useState(false);
 
     useEffect(() => {
+        const jwt = localStorage.getItem('jwt');
+        if(jwt){
+            apiAuth.getContent(jwt)
+                .then((res) => {
+                    setIsLoggedIn(true);
+                    setEmail(res.data.email);
+                    history.push('/')
+                })
+                .catch((err) => alert(err));
+        }
+    }, [history])
+
+    useEffect(() => {
         Promise.all([api.getInitialCards(), api.getUserInfo()])
             .then(([cardData, userData]) => {
                 setCurrentUser(userData);
@@ -128,7 +141,7 @@ function App() {
             .catch((err) => {
                 setToolTipStatus(true)
                 setIsInfoTooltipOpen(true)
-                console.log(`Упс, произошла ошибка: ${err}`);
+                console.log(err);
             })
     }
 
@@ -151,7 +164,7 @@ function App() {
             .catch((err) => {
                 setToolTipStatus(true)
                 setIsInfoTooltipOpen(true)
-                console.log(`Упс, произошла ошибка: ${err}`);
+                console.log(err);
             })
     }
 

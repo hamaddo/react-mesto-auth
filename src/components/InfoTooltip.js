@@ -2,20 +2,24 @@ import React from "react";
 import success from '../images/success.svg'
 import fail from '../images/Unionfail.svg'
 
-export default function InfoTooltip(props) {
+export default function InfoTooltip({tooltipStatus, isOpen, onClose}) {
 
     const handleText = (
-        `${props.tooltipStatus ? 'Что-то пошло не так! Попробуйте ещё раз.' : 'Вы успешно зарегистрировались!'}`
+        `${tooltipStatus ? 'Что-то пошло не так! Попробуйте ещё раз.' : 'Вы успешно зарегистрировались!'}`
     );
 
-    const handleImage = (`${props.tooltipStatus ? fail : success}`);
+    const handleImage = (`${tooltipStatus ? fail : success}`);
 
     return (
-        <div className={`popup ${props.isOpen && 'popup_opened'}`}>
-            <div className="infoTooltip">
-                <button className="popup__button button" type="button" onClick={props.onClose}/>
-                <img className="infoTooltip__image" src={handleImage} alt=""/>
-                <p className="infoTooltip__title">{handleText}</p>
+        <div className={`popup ${isOpen && 'popup_opened'}`}>
+            <div className="popup__container">
+                <button className="popup__button button" type="button" onClick={onClose}/>
+                <form className="form" name="infoTooltip-form" id='infoTooltip-form'>
+                    <fieldset className="popup__fieldset">
+                        <img className="infoTooltip__image" src={handleImage} alt=""/>
+                        <p className="infoTooltip__title">{handleText}</p>
+                    </fieldset>
+                </form>
             </div>
         </div>
     )

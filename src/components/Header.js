@@ -5,7 +5,7 @@ function Header({email, signOut}){
     return (
         <header className="header">
             <img className="header__logo" src={headerLogo} alt="Лого"/>
-            <Route path="/sign-up">
+            <Route path="/signup">
                 <Link to="/signin" className="header__button">Войти</Link>
             </Route>
             <Route path="/signin">
