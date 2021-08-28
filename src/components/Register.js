@@ -2,20 +2,20 @@ import React from "react";
 import {Link} from "react-router-dom";
 
 
-export default function Register(props) {
+export default function Register({onRegistration}) {
 
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
 
     function handleSubmit(e) {
         e.preventDefault();
-        props.register(email, password)
+        onRegistration(email, password)
     }
 
     return (
         <div className="auth">
             <p className="auth__title">Регистрация</p>
-            <form onSubmit={handleSubmit} className="auth__form" type="form">
+            <form onSubmit={handleSubmit} className="auth__form">
                 <input
                     className="auth__input"
                     type="email"

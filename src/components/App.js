@@ -7,13 +7,14 @@ import EditAvatarPopup from "./EditAvatarPopup";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import React, {useEffect, useState} from "react";
-import {Route, Switch, Redirect, useHistory} from "react-router-dom";
+import {Redirect, Route, Switch, useHistory} from "react-router-dom";
 import {ProtectedRoute} from './ProtectedRoute';
 import Login from './Login';
 import Register from './Register';
 import InfoTooltip from './InfoTooltip';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 import api from "../utils/api";
+import * as apiAuth from "../utils/apiAuth";
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
 
     const [currentUser, setCurrentUser] = useState({});
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [email, setEmail] = useState('');
     const history = useHistory();
 
     const [selectedCard, setSelectedCard] = useState({})
@@ -114,30 +116,69 @@ function App() {
             .catch(err => console.log(err))
             .finally(() => setIsSaving(false))
     }
-    const handleRegistration = ({email, password}) => {
-
+    const handleRegistration = (email, password) => {
+        apiAuth.register(email, password)
+            .then((res) => {
+                if (res.data._id) {
+                    setToolTipStatus(false)
+                    setIsInfoTooltipOpen(true)
+                    history.push('/signin');
+                }
+            })
+            .catch((err) => {
+                setToolTipStatus(true)
+                setIsInfoTooltipOpen(true)
+                console.log(`Упс, произошла ошибка: ${err}`);
+            })
     }
 
-    const handleLogin = ({email, password}) => {
+    const handleLogin = (email, password) => {
+        apiAuth.login(email, password)
+            .then((data) => {
+                if (data.token) {
+                    setToolTipStatus(false)
+                    setIsInfoTooltipOpen(false)
+                    localStorage.setItem('jwt', data.token)
+                    setIsLoggedIn(true)
+                    history.push('/')
+                    setEmail(email)
 
+                } else {
+                    setToolTipStatus(true)
+                    setIsInfoTooltipOpen(true)
+                }
+            })
+            .catch((err) => {
+                setToolTipStatus(true)
+                setIsInfoTooltipOpen(true)
+                console.log(`Упс, произошла ошибка: ${err}`);
+            })
     }
+
 
     const closeAllPopups = () => {
         setIsAddPlacePopupOpen(false);
         setIsEditAvatarPopupOpen(false);
         setIsEditProfilePopupOpen(false);
         setIsImagePopupOpen(false);
+        setIsInfoTooltipOpen(false);
     }
+
+    const handleSignOut = () => {
+        localStorage.removeItem('jwt');
+        setIsLoggedIn(false);
+        history.push('/sign-in');
+    };
 
 
     return (
         <div className="page">
             <CurrentUserContext.Provider value={currentUser}>
-                <Header/>
+                <Header signOut={handleSignOut} email={email}/>
                 <Switch>
                     <ProtectedRoute
                         exact path="/"
-                        loggedIn={isLoggedIn}
+                        isLoggedIn={isLoggedIn}
                         component={Main}
                         onEditProfile={handleEditProfileClick}
                         loading={loading}
@@ -147,19 +188,19 @@ function App() {
                         onCardClick={handleCardClick}
                         onCardLike={handleCardLike}
                         onCardDelete={handleCardDelete}
-                        />
+                    />
 
-                        <Route path="/sign-up">
-                            <Register onRegistration={handleRegistration}/>
-                        </Route>
+                    <Route path="/signup">
+                        <Register onRegistration={handleRegistration}/>
+                    </Route>
 
-                        <Route path="/sign-in">
-                            <Login handleLogin={handleLogin}/>
-                        </Route>
+                    <Route path="/signin">
+                        <Login handleLogin={handleLogin}/>
+                    </Route>
 
-                        <Route path="/">
-                            {isLoggedIn ? <Redirect to="/"/> : <Redirect to="/sign-in"/>}
-                        </Route>
+                    <Route path="/">
+                        {isLoggedIn ? <Redirect to="/"/> : <Redirect to="/signin"/>}
+                    </Route>
                 </Switch>
                 <Footer/>
 
@@ -168,19 +209,27 @@ function App() {
                     isOpen={isInfoTooltipOpen}
                     tooltipStatus={tooltipStatus}
                 />
-                <PopupEditProfile isOpen={isEditProfilePopupOpen} isSaving={isSaving} onClose={closeAllPopups}
+                <PopupEditProfile isOpen={isEditProfilePopupOpen}
+                                  isSaving={isSaving}
+                                  onClose={closeAllPopups}
                                   onUpdateUser={handleUpdateUser}/>
-                <AddPlacePopup isOpen={isAddPlacePopupOpen} isSaving={isSaving} onClose={closeAllPopups}
+                <AddPlacePopup isOpen={isAddPlacePopupOpen}
+                               isSaving={isSaving}
+                               onClose={closeAllPopups}
                                onAddCard={handleAddCard}/>
-                <EditAvatarPopup isOpen={isEditAvatarPopupOpen} isSaving={isSaving} onClose={closeAllPopups}
+                <EditAvatarPopup isOpen={isEditAvatarPopupOpen}
+                                 isSaving={isSaving}
+                                 onClose={closeAllPopups}
                                  onUpdateAvatar={handleUpdateAvatar}/>
                 <PopupWithForm name='delete' title='Вы уверены?' buttonText='Удалить' onClose={closeAllPopups}/>
-                <ImagePopup isOpen={isImagePopupOpen} onClose={closeAllPopups} card={selectedCard}
+                <ImagePopup isOpen={isImagePopupOpen}
+                            onClose={closeAllPopups}
+                            card={selectedCard}
                             link={selectedCard.link}
                             name={selectedCard.name}/>
             </CurrentUserContext.Provider>
         </div>
-);
+    );
 }
 
 export default App;

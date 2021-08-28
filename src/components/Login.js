@@ -1,19 +1,19 @@
 import React from "react";
 
-function Login(props) {
+function Login({handleLogin}) {
 
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
 
     function handleSubmit(e) {
         e.preventDefault();
-        props.enter(email, password)
+        handleLogin(email, password)
     }
 
     return (
         <div className="auth">
             <p className="auth__title">Вход</p>
-            <form className="auth__form" type="form" onSubmit={handleSubmit}>
+            <form className="auth__form" onSubmit={handleSubmit}>
                 <input
                     className="auth__input"
                     type="email"

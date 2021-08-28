@@ -6,10 +6,10 @@ function Header({email, signOut}){
         <header className="header">
             <img className="header__logo" src={headerLogo} alt="Лого"/>
             <Route path="/sign-up">
-                <Link to="/sign-in" className="header__button">Войти</Link>
+                <Link to="/signin" className="header__button">Войти</Link>
             </Route>
-            <Route path="/sign-in">
-                <Link to="/sign-up" className="header__button">Регистрация</Link>
+            <Route path="/signin">
+                <Link to="/signup" className="header__button">Регистрация</Link>
             </Route>
             <Route exact path="/">
                 <div className="header__container">
