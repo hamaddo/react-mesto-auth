@@ -2,23 +2,33 @@ import PopupWithForm from "./PopupWithForm";
 import React, {useContext, useEffect, useState} from "react";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 
-export default function PopupEditProfile({isOpen, onClose, onUpdateUser, isSaving}) {
-    const [name, setName] = useState('');
-    const [about, setAbout] = useState('');
+export default function PopupEditProfile({isOpen, onClose, onUpdateUser, isSaving,initialName,initialAbout}) {
     const currentUser = useContext(CurrentUserContext);
-    useEffect(() => {
+
+    const [name, setName] = useState(initialName);
+    const [about, setAbout] = useState(initialAbout);
+
+    const onPopupEditProfileClose = () => {
+        onClose();
         setName(currentUser.name);
         setAbout(currentUser.about);
-    }, [currentUser])
+    }
+
+    const resetInputs = () => {
+        setName('');
+        setAbout('')
+    }
 
     const handleChangeName = e => setName(e.target.value);
     const handleChangeDescription = e => setAbout(e.target.value);
+
     const handleSubmit = e => {
         e.preventDefault();
         onUpdateUser({
             name,
             about: about,
         });
+        resetInputs();
     }
 
     return (
@@ -27,13 +37,14 @@ export default function PopupEditProfile({isOpen, onClose, onUpdateUser, isSavin
                        buttonText={isSaving ? 'Сохранение...' : 'Сохранить'}
                        isOpen={isOpen}
                        onSubmit={handleSubmit}
-                       onClose={onClose}>
+                       onClose={onPopupEditProfileClose}
+        >
             <input type="text" minLength="2" maxLength="40" required
                    id="edit-form__input_field_title"
                    name="name"
                    placeholder="Имя"
                    className="form__input form__input_type_title"
-                   value={name || ''}
+                   value={name}
                    onChange={handleChangeName}
             />
             <span className="popup__error"
@@ -43,7 +54,7 @@ export default function PopupEditProfile({isOpen, onClose, onUpdateUser, isSavin
                    name="about"
                    placeholder="Вид деятельности"
                    className="form__input form__input_type_subtitle"
-                   value={about || ''}
+                   value={about}
                    onChange={handleChangeDescription}
             />
             <span className="popup__error"

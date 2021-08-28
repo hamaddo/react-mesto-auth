@@ -6,7 +6,8 @@ export const ProtectedRoute = ({isLoggedIn, component: Component, ...restProps})
     if (!isLoggedIn) {
         return <Redirect to="/sign-in"/>
     }
-    return <Route>
-        <Component {...restProps} />
-    </Route>
+    return (
+        <Route>
+            <Component {...restProps} />
+        </Route>)
 }

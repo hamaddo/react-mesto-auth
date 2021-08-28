@@ -121,7 +121,7 @@ function App() {
             .finally(() => setIsSaving(false))
     }
 
-    const handleAddCard = ({name, link}) => {
+    const handleAddCard = (name, link) => {
         setIsSaving(true);
         api.addCard(name, link)
             .then(newCard => setCards([newCard, ...cards]))

@@ -1,24 +1,27 @@
 import PopupWithForm from "./PopupWithForm";
-import {useRef, useEffect} from "react";
+import {useEffect, useState} from "react";
 
 export default function AddPlacePopup({onClose, onAddCard, isOpen, isSaving}) {
+    const [name, setName] = useState('');
+    const [link, setLink] = useState('');
 
-    const name = useRef();
-    const link = useRef();
+    const resetInputs = () =>{
+        setName('');
+        setLink('');
+    }
 
-    useEffect(() => {
-        name.current.value = '';
-        link.current.value = '';
-    }, [isOpen]);
+    const onAddPlacePopupClose =()=>{
+        onClose();
+        resetInputs();
+    }
 
+    const handleChangeName = e => setName(e.target.value);
+    const handleChangeLink = e => setLink(e.target.value);
 
     function handleSubmit(e) {
         e.preventDefault();
-
-        onAddCard({
-            name: name.current.value,
-            link: link.current.value
-        });
+        onAddCard(name, link);
+        resetInputs();
     }
 
     return (
@@ -26,13 +29,15 @@ export default function AddPlacePopup({onClose, onAddCard, isOpen, isSaving}) {
                        title='Новое место'
                        buttonText={isSaving ? 'Сохранение...' : 'Сохранить'}
                        onSubmit={handleSubmit} isOpen={isOpen}
-                       onClose={onClose}>
+                       onClose={onAddPlacePopupClose}
+        >
             <input type="text" minLength="2" maxLength="30" required
                    id="add-form__input_field_title"
                    name="name"
                    placeholder="Название"
                    className="form__input form__input_type_title"
-                   ref={name}
+                   onChange={handleChangeName}
+                   value={name}
             />
             <span className="popup__error"
                   id="add-form__input_field_title_error"/>
@@ -41,7 +46,8 @@ export default function AddPlacePopup({onClose, onAddCard, isOpen, isSaving}) {
                    name="link"
                    placeholder="Ссылка на картинку"
                    className="form__input form__input_type_subtitle"
-                   ref={link}
+                   onChange={handleChangeLink}
+                   value={link}
             />
             <span className="popup__error"
                   id="add-form__input_field_subtitle_error"/>

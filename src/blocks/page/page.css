@@ -3,8 +3,10 @@
     justify-items: center;
     font-family: 'Inter',Arial, sans-serif;
     background-color: black;
+    min-height: 100vh;
     font-weight: normal;
     color: white;
+    margin: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }

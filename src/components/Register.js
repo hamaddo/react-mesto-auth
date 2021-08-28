@@ -7,6 +7,9 @@ export default function Register({onRegistration}) {
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
 
+    const handleEmailChange = e => setEmail(e.target.value);
+    const handlePasswordChange = e => setPassword(e.target.value);
+
     function handleSubmit(e) {
         e.preventDefault();
         onRegistration(email, password)
@@ -20,18 +23,20 @@ export default function Register({onRegistration}) {
                     className="auth__input"
                     type="email"
                     name="email"
-                    onChange={(e) => setEmail(e.target.value)}
+                    value={email}
+                    onChange={handleEmailChange}
                     placeholder="Email"
                 />
                 <input
                     className="auth__input"
                     type="password"
-                    name="email"
-                    onChange={(e) => setPassword(e.target.value)}
+                    name="password"
+                    value={password}
+                    onChange={handlePasswordChange}
                     placeholder="Пароль"
                 />
+            <button className="auth__button" type="submit">Зарегистрироваться</button>
             </form>
-            <button className="auth__button" type="submit" onClick={handleSubmit}>Зарегистрироваться</button>
             <Link className="auth__link" to="/signin">Уже зарегистрированы? Войти</Link>
         </div>
     )

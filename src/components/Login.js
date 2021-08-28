@@ -5,6 +5,9 @@ function Login({handleLogin}) {
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
 
+    const handleEmailChange = e=>setEmail(e.target.value);
+    const handlePasswordChange = e=>setPassword(e.target.value);
+
     function handleSubmit(e) {
         e.preventDefault();
         handleLogin(email, password)
@@ -18,14 +21,16 @@ function Login({handleLogin}) {
                     className="auth__input"
                     type="email"
                     placeholder="Email"
-                    onChange={(e) => setEmail(e.target.value)}/>
+                    value={email}
+                    onChange={handleEmailChange}/>
                 <input
                     className="auth__input"
                     type="password"
                     placeholder="Пароль"
-                    onChange={(e) => setPassword(e.target.value)}/>
+                    value={password}
+                    onChange={handlePasswordChange}/>
+            <button className="auth__button" type="submit">Войти</button>
             </form>
-            <button className="auth__button" type="submit" onClick={handleSubmit}>Войти</button>
         </div>
     )
 }
