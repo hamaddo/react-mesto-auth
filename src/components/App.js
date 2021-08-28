@@ -253,7 +253,6 @@ function App() {
                     isSaving={isSaving}
                     onClose={closeAllPopups}
                     onUpdateUser={handleUpdateUser}
-                    loading={loading}
                 /> : <></>}
 
             </CurrentUserContext.Provider>
