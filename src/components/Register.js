@@ -1,0 +1,38 @@
+import React from "react";
+import {Link} from "react-router-dom";
+
+
+export default function Register(props) {
+
+    const [email, setEmail] = React.useState('');
+    const [password, setPassword] = React.useState('');
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        props.register(email, password)
+    }
+
+    return (
+        <div className="auth">
+            <p className="auth__title">Регистрация</p>
+            <form onSubmit={handleSubmit} className="auth__form" type="form">
+                <input
+                    className="auth__input"
+                    type="email"
+                    name="email"
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Email"
+                />
+                <input
+                    className="auth__input"
+                    type="password"
+                    name="email"
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Пароль"
+                />
+            </form>
+            <button className="auth__button" type="submit" onClick={handleSubmit}>Зарегистрироваться</button>
+            <Link className="auth__link" to="/react-mesto-auth/sign-in">Уже зарегистрированы? Войти</Link>
+        </div>
+    )
+}

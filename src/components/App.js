@@ -7,6 +7,11 @@ import EditAvatarPopup from "./EditAvatarPopup";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import React, {useEffect, useState} from "react";
+import {Route, Switch, Redirect, useHistory, BrowserRouter} from "react-router-dom";
+import {ProtectedRoute} from './ProtectedRoute';
+import Login from './Login';
+import Register from './Register';
+import InfoTooltip from './InfoTooltip';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 import api from "../utils/api";
 
@@ -16,12 +21,18 @@ function App() {
     const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
     const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
-    const [selectedCard, setSelectedCard] = useState({})
+    const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
 
     const [currentUser, setCurrentUser] = useState({});
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const history = useHistory();
+
+    const [selectedCard, setSelectedCard] = useState({})
     const [cards, setCards] = useState([]);
+
     const [loading, setLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
+    const [tooltipStatus, setToolTipStatus] = React.useState(false);
 
     useEffect(() => {
         Promise.all([api.getInitialCards(), api.getUserInfo()])
@@ -103,6 +114,13 @@ function App() {
             .catch(err => console.log(err))
             .finally(() => setIsSaving(false))
     }
+    const handleRegistration = ({email, password}) => {
+
+    }
+
+    const handleLogin = ({email, password}) => {
+
+    }
 
     const closeAllPopups = () => {
         setIsAddPlacePopupOpen(false);
@@ -116,19 +134,42 @@ function App() {
         <div className="page">
             <CurrentUserContext.Provider value={currentUser}>
                 <Header/>
+                <BrowserRouter>
+                    <Switch>
+                        <ProtectedRoute>
+                            path="/"
+                            loggedIn={isLoggedIn}
+                            component={Main}
+                            onEditProfile={handleEditProfileClick}
+                            loading={loading}
+                            cards={cards}
+                            onAddPlace={handleAddPlaceClick}
+                            onEditAvatar={handleEditAvatarClick}
+                            onCardClick={handleCardClick}
+                            onCardLike={handleCardLike}
+                            onCardDelete={handleCardDelete}
+                        </ProtectedRoute>
 
-                <Main onEditProfile={handleEditProfileClick}
-                      loading={loading}
-                      cards={cards}
-                      onAddPlace={handleAddPlaceClick}
-                      onEditAvatar={handleEditAvatarClick}
-                      onCardClick={handleCardClick}
-                      onCardLike={handleCardLike}
-                      onCardDelete={handleCardDelete}
-                />
+                        <Route path="/sign-up">
+                            <Register onRegistration={handleRegistration}/>
+                        </Route>
 
+                        <Route path="/sign-in">
+                            <Login handleLogin={handleLogin}/>
+                        </Route>
+
+                        <Route path="/">
+                            {isLoggedIn ? <Redirect to="/"/> : <Redirect to="/sign-in"/>}
+                        </Route>
+                    </Switch>
+                </BrowserRouter>
                 <Footer/>
 
+                <InfoTooltip
+                    onClose={closeAllPopups}
+                    isOpen={isInfoTooltipOpen}
+                    tooltipStatus={tooltipStatus}
+                />
                 <PopupEditProfile isOpen={isEditProfilePopupOpen} isSaving={isSaving} onClose={closeAllPopups}
                                   onUpdateUser={handleUpdateUser}/>
                 <AddPlacePopup isOpen={isAddPlacePopupOpen} isSaving={isSaving} onClose={closeAllPopups}
