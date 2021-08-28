@@ -1,6 +1,6 @@
 import React from "react";
 
-export  default function Login(props) {
+function Login(props) {
 
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
@@ -13,7 +13,7 @@ export  default function Login(props) {
     return (
         <div className="auth">
             <p className="auth__title">Вход</p>
-            <form className="login__form" type="form" onSubmit={handleSubmit}>
+            <form className="auth__form" type="form" onSubmit={handleSubmit}>
                 <input
                     className="auth__input"
                     type="email"
@@ -29,3 +29,5 @@ export  default function Login(props) {
         </div>
     )
 }
+
+export default Login;

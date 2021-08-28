@@ -7,7 +7,7 @@ import EditAvatarPopup from "./EditAvatarPopup";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import React, {useEffect, useState} from "react";
-import {Route, Switch, Redirect, useHistory, BrowserRouter} from "react-router-dom";
+import {Route, Switch, Redirect, useHistory} from "react-router-dom";
 import {ProtectedRoute} from './ProtectedRoute';
 import Login from './Login';
 import Register from './Register';
@@ -134,21 +134,20 @@ function App() {
         <div className="page">
             <CurrentUserContext.Provider value={currentUser}>
                 <Header/>
-                <BrowserRouter>
-                    <Switch>
-                        <ProtectedRoute>
-                            path="/"
-                            loggedIn={isLoggedIn}
-                            component={Main}
-                            onEditProfile={handleEditProfileClick}
-                            loading={loading}
-                            cards={cards}
-                            onAddPlace={handleAddPlaceClick}
-                            onEditAvatar={handleEditAvatarClick}
-                            onCardClick={handleCardClick}
-                            onCardLike={handleCardLike}
-                            onCardDelete={handleCardDelete}
-                        </ProtectedRoute>
+                <Switch>
+                    <ProtectedRoute
+                        exact path="/"
+                        loggedIn={isLoggedIn}
+                        component={Main}
+                        onEditProfile={handleEditProfileClick}
+                        loading={loading}
+                        cards={cards}
+                        onAddPlace={handleAddPlaceClick}
+                        onEditAvatar={handleEditAvatarClick}
+                        onCardClick={handleCardClick}
+                        onCardLike={handleCardLike}
+                        onCardDelete={handleCardDelete}
+                        />
 
                         <Route path="/sign-up">
                             <Register onRegistration={handleRegistration}/>
@@ -161,8 +160,7 @@ function App() {
                         <Route path="/">
                             {isLoggedIn ? <Redirect to="/"/> : <Redirect to="/sign-in"/>}
                         </Route>
-                    </Switch>
-                </BrowserRouter>
+                </Switch>
                 <Footer/>
 
                 <InfoTooltip
@@ -182,7 +180,7 @@ function App() {
                             name={selectedCard.name}/>
             </CurrentUserContext.Provider>
         </div>
-    );
+);
 }
 
 export default App;
