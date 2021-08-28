@@ -38,7 +38,7 @@ function App() {
 
     useEffect(() => {
         const jwt = localStorage.getItem('jwt');
-        if(jwt){
+        if (jwt) {
             apiAuth.getContent(jwt)
                 .then((res) => {
                     setIsLoggedIn(true);
@@ -180,7 +180,7 @@ function App() {
     const handleSignOut = () => {
         localStorage.removeItem('jwt');
         setIsLoggedIn(false);
-        history.push('/sign-in');
+        history.push('/signin');
     };
 
 
@@ -188,6 +188,7 @@ function App() {
         <div className="page">
             <CurrentUserContext.Provider value={currentUser}>
                 <Header signOut={handleSignOut} email={email}/>
+
                 <Switch>
                     <ProtectedRoute
                         exact path="/"
@@ -215,6 +216,7 @@ function App() {
                         {isLoggedIn ? <Redirect to="/"/> : <Redirect to="/signin"/>}
                     </Route>
                 </Switch>
+
                 <Footer/>
 
                 <InfoTooltip
@@ -226,15 +228,19 @@ function App() {
                                   isSaving={isSaving}
                                   onClose={closeAllPopups}
                                   onUpdateUser={handleUpdateUser}/>
+
                 <AddPlacePopup isOpen={isAddPlacePopupOpen}
                                isSaving={isSaving}
                                onClose={closeAllPopups}
                                onAddCard={handleAddCard}/>
+
                 <EditAvatarPopup isOpen={isEditAvatarPopupOpen}
                                  isSaving={isSaving}
                                  onClose={closeAllPopups}
                                  onUpdateAvatar={handleUpdateAvatar}/>
+
                 <PopupWithForm name='delete' title='Вы уверены?' buttonText='Удалить' onClose={closeAllPopups}/>
+
                 <ImagePopup isOpen={isImagePopupOpen}
                             onClose={closeAllPopups}
                             card={selectedCard}
